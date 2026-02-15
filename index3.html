@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💕</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: pink;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+/* buttons */
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  cursor: pointer;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  margin: 10px;
+}
+
+/* hide sections initially */
+#transition, #videoSection, #mainContent {
+  display: none;
+}
+
+/* fade animation */
+.fade {
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* transition text */
+#transition {
+  font-size: 26px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* video */
+video {
+  width: 90%;
+  max-width: 360px;
+  border-radius: 12px;
+  margin-top: 40px;
+}
+
+/* hearts */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: floatUp 5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% { bottom: 0; opacity: 1; }
+  100% { bottom: 100%; opacity: 0; }
+}
+
+/* fireworks */
+.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: gold;
+  border-radius: 50%;
+  animation: explode 1.2s ease-out forwards;
+}
+
+@keyframes explode {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- QUESTION -->
+<div id="question">
+  <h1>Will you be mine, Valentine? 💘</h1>
+  <button onclick="handleYes()">Yes</button>
+  <button id="noBtn">No</button>
+</div>
+
+<!-- TRANSITION -->
+<div id="transition" class="fade">
+  Before you watch this… just know I chose you ❤️
+</div>
+
+<!-- VIDEO -->
+<div id="videoSection">
+  <video id="loveVideo">
+    <source src="VN20260206_081143.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- FINAL CONTENT -->
+<div id="mainContent" class="fade">
+  <h1>Happy Valentine’s Day ❤️</h1>
+  <p id="typeText"></p>
+</div>
+
+<script>
+const message = `From the moment you came into my life, something changed in the most beautiful way. You became my comfort, my happiness, and the reason so many ordinary days started feeling extraordinary. With you, even silence feels peaceful, and even the simplest moments turn into memories I want to keep forever. You understand me in ways I didn’t even know I needed, and your presence alone makes everything feel lighter.
+
+I love the way you smile, the way you care so deeply, and the way you make me feel safe just by being yourself. You support me, believe in me, and stand by me in ways I’ll never stop being grateful for. No matter what life brings, knowing I have you by my side gives me strength and calm.
+
+Loving you is the easiest and most beautiful thing I’ve ever done. You are not just someone I love — you are my home, my heart, and my forever. I promise to choose you every day, to cherish you, and to love you in all the quiet moments and all the loud ones too. Happy Valentine’s Day, my love. ❤️
+
+Every day with you feels like discovering a new shade of happiness I didn’t know existed. I remember the first time we laughed together and how it felt like the world paused just for us, and I carry that feeling with me always. Your kindness, your patience, your incredible heart — it amazes me constantly, and I find myself falling in love with you over and over again. I love the little things you do that I probably don’t even tell you about — the way your eyes light up when you’re excited, the way you gently reach for my hand, the way your voice calms me even when everything around us feels chaotic. I think about the quiet moments we share, the inside jokes, the plans we whisper to each other at night, and it all fills me with a warmth that I can’t describe with words alone. You make me want to be the best version of myself, not for anyone else, but because I want to deserve the love and light you bring into my life. I want to hold your hand through everything — the laughter, the tears, the successes, the challenges — and I want to keep building our story together, one memory at a time. With you, even ordinary days feel magical, and every future dream feels brighter because I know you’ll be there by my side. You are my heart, my home, and my forever, and I hope you always feel how deeply and completely I love you. ❤️
+You are my heart, my peace, and my forever ❤️`;
+
+let index = 0;
+
+/* YES click */
+function handleYes() {
+  document.getElementById("question").style.display = "none";
+
+  const transition = document.getElementById("transition");
+  transition.style.display = "block";
+
+  // 3 sec pause before video
+  setTimeout(() => {
+    transition.style.display = "none";
+
+    const videoSection = document.getElementById("videoSection");
+    videoSection.style.display = "block";
+
+    const video = document.getElementById("loveVideo");
+    video.play();
+
+    video.onended = () => {
+      videoSection.style.display = "none";
+
+      // 
+      setTimeout(() => {
+        document.getElementById("mainContent").style.display = "block";
+        typeWriter();
+        startHearts();
+        startFireworks();
+      }, );
+    };
+  }, 3000);
+}
+
+/* typewriter */
+function typeWriter() {
+  if (index < message.length) {
+    document.getElementById("typeText").innerHTML += message.charAt(index);
+    index++;
+    setTimeout(typeWriter, 40);
+  }
+}
+
+/* hearts */
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+  }, 300);
+}
+
+/* fireworks */
+function startFireworks() {
+  for (let i = 0; i < 40; i++) {
+    const spark = document.createElement("div");
+    spark.className = "firework";
+    spark.style.left = "50%";
+    spark.style.top = "40%";
+    spark.style.setProperty("--x", Math.random() * 300 - 150 + "px");
+    spark.style.setProperty("--y", Math.random() * -300 + "px");
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 1500);
+  }
+}
+
+/* NO button (desktop + mobile) */
+const noBtn = document.getElementById("noBtn");
+
+function moveNo() {
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random() * 80 + "vw";
+  noBtn.style.top = Math.random() * 80 + "vh";
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+</script>
+
+</body>
+</html>
+
+
